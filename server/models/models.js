@@ -87,3 +87,42 @@ const Coach = sequelize.define('coach', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     count: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false}
 })
+
+User.hasOne(Balance)
+Balance.belongsTo(User)
+
+User.hasMany(Rating)
+Rating.belongsTo(User)
+
+User.hasMany(Connection)
+Connection.belongsTo(User)
+
+User.hasMany(Order)
+Order.belongsTo(User)
+
+User.hasOne(PromoUsages)
+PromoUsages.hasOne(User)
+
+PromoUsages.hasOne(PromoCode)
+PromoCode.hasOne(PromoUsages)
+
+Balance.hasMany(Rating)
+Rating.belongsTo(Balance)
+
+Order.hasOne(Product)
+Product.hasOne(Order)
+
+PromoCode.hasMany(Product)
+Product.hasOne(PromoCode)
+
+Product.belongsToMany(Boost, {through: Type})
+Boost.belongsToMany(Product, {through: Type})
+
+Product.belongsToMany(Account, {through: Type})
+Account.belongsToMany(Product, {through: Type})
+
+Product.belongsToMany(Calibrate, {through: Type})
+Calibrate.belongsToMany(Product, {through: Type})
+
+Product.belongsToMany(Coach, {through: Type})
+Coach.belongsToMany(Product, {through: Type})
