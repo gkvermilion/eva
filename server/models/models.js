@@ -17,9 +17,9 @@ const Connection = sequelize.define('connection', {
     desire: {type: DataTypes.STRING}
 })
 
-const Order = sequelize.define('order', {
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-})
+// const Order = sequelize.define('order', {
+//     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+// })
 
 const Balance = sequelize.define('balance', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
@@ -97,23 +97,20 @@ Rating.belongsTo(User)
 User.hasMany(Connection)
 Connection.belongsTo(User)
 
-User.hasMany(Order)
-Order.belongsTo(User)
+User.hasMany(Product)
+Product.belongsTo(User)
 
 User.hasOne(PromoUsages)
-PromoUsages.hasOne(User)
+PromoUsages.belongsTo(User)
 
 PromoUsages.hasOne(PromoCode)
-PromoCode.hasOne(PromoUsages)
+PromoCode.belongsTo(PromoUsages)
 
 Balance.hasMany(Rating)
 Rating.belongsTo(Balance)
 
-Order.hasOne(Product)
-Product.hasOne(Order)
-
 PromoCode.hasMany(Product)
-Product.hasOne(PromoCode)
+Product.belongsTo(PromoCode)
 
 Product.belongsToMany(Boost, {through: Type})
 Boost.belongsToMany(Product, {through: Type})
@@ -126,3 +123,18 @@ Calibrate.belongsToMany(Product, {through: Type})
 
 Product.belongsToMany(Coach, {through: Type})
 Coach.belongsToMany(Product, {through: Type})
+
+module.exports = {
+    User,
+    Connection,
+    Balance,
+    Rating,
+    Product,
+    PromoCode,
+    PromoUsages,
+    Type,
+    Boost,
+    Account,
+    Calibrate,
+    Coach
+}
