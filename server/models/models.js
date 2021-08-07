@@ -40,8 +40,8 @@ const Product = sequelize.define('product', {
 const PromoCode = sequelize.define('promo_code', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name: {type: DataTypes.STRING, unique: true, allowNull: false},
-    valid_from: {type: DataTypes.DATE, allowNull: false},
-    valid_till: {type: DataTypes.DATE, allowNull: false}
+    // valid_from: {type: DataTypes.DATE, allowNull: false, defaultValue: new Date()},
+    // valid_till: {type: DataTypes.DATE, allowNull: false,  defaultValue: new Date()}
 })
 
 const PromoUsages = sequelize.define('promo_usages', {
