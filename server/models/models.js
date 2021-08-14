@@ -9,7 +9,7 @@ const User = sequelize.define('user', {
     VK: {type: DataTypes.STRING, unique: true}
 })
 
-const Connection = sequelize.define('connection', {
+const Connection = sequelize.define('connection', {//форма для всего
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     steam_login: {type: DataTypes.STRING, allowNull: false},
     steam_password: {type: DataTypes.STRING, allowNull: false},
@@ -27,7 +27,7 @@ const Balance = sequelize.define('balance', {
     rating: {type: DataTypes.INTEGER, defaultValue: 0}
 })
 
-const Rating = sequelize.define('rating', {
+const Rating = sequelize.define('rating', {//рейтинг за услугу
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     rate: {type: DataTypes.INTEGER, allowNull: false}
 })
@@ -43,7 +43,7 @@ const Boost = sequelize.define('boost', {
     current_mmr: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false},
     end_mmr: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false},
     super: {type: DataTypes.BOOLEAN},
-    choice: {type: DataTypes.BOOLEAN},
+    choice: {type: DataTypes.BOOLEAN},//выбор героев
     special_time: {type: DataTypes.BOOLEAN},
     start: {type: DataTypes.INTEGER},
     end: {type: DataTypes.INTEGER},
@@ -55,7 +55,7 @@ const Account = sequelize.define('account', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     price: {type: DataTypes.INTEGER, allowNull: false},
     mmr: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false},
-    decency: {type: DataTypes.INTEGER, defaultValue: 10000, allowNull: false},
+    decency: {type: DataTypes.INTEGER, defaultValue: 10000, allowNull: false},//порядочность
     level: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false},
     steam_link: {type: DataTypes.STRING, allowNull: false},
     dotabuff: {type: DataTypes.STRING, allowNull: false},
@@ -68,15 +68,15 @@ const Calibrate = sequelize.define('calibrate', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     price: {type: DataTypes.INTEGER, allowNull: false},
     previous_mmr: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false},
-    super: {type: DataTypes.BOOLEAN},
-    games: {type: DataTypes.INTEGER, defaultValue: 0},
-    no_guard: {type: DataTypes.BOOLEAN}
+    super: {type: DataTypes.BOOLEAN},//сделать быстрее
+    games: {type: DataTypes.INTEGER, defaultValue: 0},//сколько игры осталось сыграть  от 1 до 10
+    no_guard: {type: DataTypes.BOOLEAN}//не отключать стим гуард
 })
 
 const Coach = sequelize.define('coach', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     price: {type: DataTypes.INTEGER, allowNull: false},
-    count: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false}
+    count: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false}//кол во игр с тренером
 })
 
 User.hasOne(Balance)
