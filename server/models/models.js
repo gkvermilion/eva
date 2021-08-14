@@ -32,28 +32,14 @@ const Rating = sequelize.define('rating', {
     rate: {type: DataTypes.INTEGER, allowNull: false}
 })
 
-const Product = sequelize.define('product', {
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    price: {type: DataTypes.INTEGER, allowNull: false}
-})
-
 const PromoCode = sequelize.define('promo_code', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    name: {type: DataTypes.STRING, unique: true, allowNull: false},
-    // valid_from: {type: DataTypes.DATE, allowNull: false, defaultValue: new Date()},
-    // valid_till: {type: DataTypes.DATE, allowNull: false,  defaultValue: new Date()}
-})
-
-const PromoUsages = sequelize.define('promo_usages', {
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}
-})
-
-const Type = sequelize.define('type', {
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}
+    name: {type: DataTypes.STRING, unique: true, allowNull: false}
 })
 
 const Boost = sequelize.define('boost', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    price: {type: DataTypes.INTEGER, allowNull: false},
     current_mmr: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false},
     end_mmr: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false},
     super: {type: DataTypes.BOOLEAN},
@@ -67,17 +53,20 @@ const Boost = sequelize.define('boost', {
 
 const Account = sequelize.define('account', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    price: {type: DataTypes.INTEGER, allowNull: false},
     mmr: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false},
     decency: {type: DataTypes.INTEGER, defaultValue: 10000, allowNull: false},
     level: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false},
     steam_link: {type: DataTypes.STRING, allowNull: false},
     dotabuff: {type: DataTypes.STRING, allowNull: false},
-    account_password: {type: DataTypes.STRING, allowNull: false}, // steam login ???
+    account_password: {type: DataTypes.STRING, allowNull: false},
+    steam_login: {type: DataTypes.STRING, allowNull: false},
     img: {type: DataTypes.STRING, allowNull: false}
 })
 
 const Calibrate = sequelize.define('calibrate', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    price: {type: DataTypes.INTEGER, allowNull: false},
     previous_mmr: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false},
     super: {type: DataTypes.BOOLEAN},
     games: {type: DataTypes.INTEGER, defaultValue: 0},
@@ -86,6 +75,7 @@ const Calibrate = sequelize.define('calibrate', {
 
 const Coach = sequelize.define('coach', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    price: {type: DataTypes.INTEGER, allowNull: false},
     count: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false}
 })
 
@@ -98,42 +88,30 @@ Rating.belongsTo(User)
 User.hasMany(Connection)
 Connection.belongsTo(User)
 
-User.hasMany(Product)
-Product.belongsTo(User)
+User.hasMany(Account)
+Account.belongsTo(User)
 
-User.hasOne(PromoUsages)
-PromoUsages.belongsTo(User)
+User.hasMany(Boost)
+Boost.belongsTo(User)
 
-PromoUsages.hasOne(PromoCode)
-PromoCode.belongsTo(PromoUsages)
+User.hasMany(Calibrate)
+Calibrate.belongsTo(User)
+
+User.hasMany(Coach)
+Coach.belongsTo(User)
 
 Balance.hasMany(Rating)
 Rating.belongsTo(Balance)
 
-PromoCode.hasMany(Product)
-Product.belongsTo(PromoCode)
-
-Product.belongsToMany(Boost, {through: Type})
-Boost.belongsToMany(Product, {through: Type})
-
-Product.belongsToMany(Account, {through: Type})
-Account.belongsToMany(Product, {through: Type})
-
-Product.belongsToMany(Calibrate, {through: Type})
-Calibrate.belongsToMany(Product, {through: Type})
-
-Product.belongsToMany(Coach, {through: Type})
-Coach.belongsToMany(Product, {through: Type})
+PromoCode.hasMany(User)
+User.belongsTo(PromoCode)
 
 module.exports = {
     User,
     Connection,
     Balance,
     Rating,
-    Product,
     PromoCode,
-    PromoUsages,
-    Type,
     Boost,
     Account,
     Calibrate,
