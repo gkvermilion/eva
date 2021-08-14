@@ -1,4 +1,4 @@
-const {PromoCode, PromoUsages} = require('../models/models')
+const {PromoCode} = require('../models/models')
 const ApiError = require('../error/ApiError');
 
 class PromocodeController {
@@ -8,12 +8,9 @@ class PromocodeController {
         return res.json(promo)
     }
 
-    async get(req, res) {
-
-    }
-
     async getAll(req, res) {
-
+        const promos = await PromoCode.findAll()
+        return res.json(promos)
     }
 
     // async delete_promo(req, res) {

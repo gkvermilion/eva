@@ -72,7 +72,8 @@ const Account = sequelize.define('account', {
     level: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false},
     steam_link: {type: DataTypes.STRING, allowNull: false},
     dotabuff: {type: DataTypes.STRING, allowNull: false},
-    account_password: {type: DataTypes.STRING, allowNull: false}
+    account_password: {type: DataTypes.STRING, allowNull: false}, // steam login ???
+    img: {type: DataTypes.STRING, allowNull: false}
 })
 
 const Calibrate = sequelize.define('calibrate', {
