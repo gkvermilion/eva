@@ -1,3 +1,5 @@
+const ApiError = require('../error/ApiError');
+
 class ConnectionController {//связь пользователя с тех поддержкой
     async create(req, res) {
 
