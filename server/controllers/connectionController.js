@@ -1,4 +1,4 @@
-class ConnectionController {
+class ConnectionController {//связь пользователя с тех поддержкой
     async create(req, res) {
 
     }
