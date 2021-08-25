@@ -1,4 +1,6 @@
 const ApiError = require('../error/ApiError');
+const bcrypt = require('bcrypt')
+const {User} = require('../models/models')
 
 class UserController {
     async registration(req, res, next) {
