@@ -1,41 +1,42 @@
 const DataTypes = require('sequelize')
 const sequelize = require('../db')
 
-const User = sequelize.define('user', {
+const User = sequelize.define('user', { // юзер, бустер, админ
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     email: {type: DataTypes.STRING, unique: true, required: true},
     password: {type: DataTypes.STRING, required: true},
-    isActivated: {type: DataTypes.BOOLEAN, default: false},
-    activationLink: {type: DataTypes.STRING},
-    balance: {type: DataTypes.INTEGER, defaultValue: 0},
-    avatar: {type: DataTypes.STRING, allowNull: false},
-    role: {type: DataTypes.STRING, defaultValue: "USER"},
-    VK: {type: DataTypes.STRING, unique: true}
+    isActivated: {type: DataTypes.BOOLEAN, default: false}, // статус аккаунта
+    activationLink: {type: DataTypes.STRING}, // ссылка на подтверждение
+    balance: {type: DataTypes.INTEGER, defaultValue: 0}, // баланс
+    avatar: {type: DataTypes.STRING, allowNull: false}, // аватарка может меняться только у бустеров и присвается
+    // вместе с вк
+    role: {type: DataTypes.STRING, defaultValue: "USER"}, // роль
+    VK: {type: DataTypes.STRING, unique: true} // ссылка на вк
 })
 
-const BoosterInfo = sequelize.define('booster_info', {
+const BoosterInfo = sequelize.define('booster_info', { // всевозможная инфа о бустере
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    rank: {type: DataTypes.STRING},
-    rating: {type: DataTypes.INTEGER, defaultValue: 0},
-    mmr: {type: DataTypes.INTEGER, defaultValue: 5000},
-    win_rate: {type: DataTypes.INTEGER},
-    wins: {type: DataTypes.INTEGER},
-    loses: {type: DataTypes.INTEGER},
-    all_games: {type: DataTypes.INTEGER},
-    name: {type: DataTypes.STRING},
+    rank: {type: DataTypes.STRING}, //ранг
+    rating: {type: DataTypes.INTEGER, defaultValue: 0}, // рейтинг
+    mmr: {type: DataTypes.INTEGER, defaultValue: 5000}, // ммр
+    win_rate: {type: DataTypes.INTEGER}, // высчитывается по формуле
+    wins: {type: DataTypes.INTEGER}, // инкрементируется с каждой победой в сервисе
+    loses: {type: DataTypes.INTEGER}, // инкрементируется с каждым поражением
+    all_games: {type: DataTypes.INTEGER}, // wins + loses
+    name: {type: DataTypes.STRING}, // личная инфа
     surname: {type: DataTypes.STRING},
     city: {type: DataTypes.STRING},
     phone: {type: DataTypes.INTEGER},
     discord: {type: DataTypes.STRING},
-    info: {type: DataTypes.STRING}
+    info: {type: DataTypes.STRING} // просто инфа
 })
 
-const Token = sequelize.define('token', {
+const Token = sequelize.define('token', { // таблица с токеном авторизации
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     refreshToken: {type: DataTypes.STRING, required: true}
 })
 
-const SteamGuard = sequelize.define('steam_guard', {
+const SteamGuard = sequelize.define('steam_guard', { // табл для хранения стимкодов
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     sg_1: {type: DataTypes.STRING},
     sg_2: {type: DataTypes.STRING},
@@ -44,118 +45,123 @@ const SteamGuard = sequelize.define('steam_guard', {
     sg_5: {type: DataTypes.STRING}
 })
 
-const UserInfo = sequelize.define('connection', {//форма для всего
+const UserInfo = sequelize.define('connection', {//форма для всего остального
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     steam_login: {type: DataTypes.STRING, allowNull: false},
     steam_password: {type: DataTypes.STRING, allowNull: false},
     chat: {type: DataTypes.STRING, allowNull: false},
-    desire: {type: DataTypes.STRING}
+    desire: {type: DataTypes.STRING} // пожелания
 })
 
-const Connection = sequelize.define('connection', {//форма для всего
+const Connection = sequelize.define('connection', {//форма для продажи аккаунта
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     steam_login: {type: DataTypes.STRING, allowNull: false},
     steam_password: {type: DataTypes.STRING, allowNull: false},
     chat: {type: DataTypes.STRING, allowNull: false},
-    wallet_type: {type: DataTypes.STRING},
-    number: {type: DataTypes.INTEGER},
+    wallet_type: {type: DataTypes.STRING}, // тип кошелька (qiwi, webmoney...)
+    number: {type: DataTypes.INTEGER}, // номер кошелька
     dotabuff: {type: DataTypes.STRING, allowNull: false},
-    acc_mail: {type: DataTypes.STRING, allowNull: false},
-    mail_password: {type: DataTypes.STRING, allowNull: false},
-    secret: {type: DataTypes.STRING},
-    desire: {type: DataTypes.STRING}
+    acc_mail: {type: DataTypes.STRING, allowNull: false}, // почта от аккаунта
+    mail_password: {type: DataTypes.STRING, allowNull: false}, // пароль от почты
+    secret: {type: DataTypes.STRING}, // секретный вопрос от почты (опционально)
+    desire: {type: DataTypes.STRING} // пожелания
 })
 
-const Withdrawal = sequelize.define('withdrawal', {
+const Withdrawal = sequelize.define('withdrawal', { // вывод средств
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    time: {type: DataTypes.DATE},
-    sum: {type: DataTypes.INTEGER, allowNull: false},
-    wallet: {type: DataTypes.STRING, allowNull: false},
-    status: {type: DataTypes.STRING, default: 'Обрабатывается'}
+    time: {type: DataTypes.DATE}, // дата
+    sum: {type: DataTypes.INTEGER, allowNull: false}, // сумма вывода
+    wallet: {type: DataTypes.STRING, allowNull: false}, // номер кошелька
+    status: {type: DataTypes.STRING, default: 'Обрабатывается'} // статус (обрабатывается, завершен, отклонено)
 })
 
-const Result = sequelize.define('result', {
+const Result = sequelize.define('result', { // результат, который вбивается после каждой игры
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    time: {type: DataTypes.DATE},
-    mmr: {type: DataTypes.INTEGER, allowNull: false},
-    hero: {type: DataTypes.STRING, allowNull: false},
-    match_id: {type: DataTypes.STRING, allowNull: false},
-    screenshot: {type: DataTypes.STRING, allowNull: false}
+    time: {type: DataTypes.DATE}, // время (автоматически)
+    mmr: {type: DataTypes.INTEGER, allowNull: false}, // вручную цифрой типа (+24)
+    hero: {type: DataTypes.STRING, allowNull: false}, // выбор героя, на котором играл
+    match_id: {type: DataTypes.STRING, allowNull: false}, // айди матча
+    screenshot: {type: DataTypes.STRING, allowNull: false} // скрин
 })
 
-const Problem = sequelize.define('balance', {
+const Problem = sequelize.define('balance', { // таблица для ошибок, обнаруженных бустерами
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    problem_code: {type: DataTypes.INTEGER, defaultValue: 1},
-    info: {type: DataTypes.STRING},
-    screenshot: {type: DataTypes.STRING, allowNull: false}
+    problem_code: {type: DataTypes.INTEGER, defaultValue: 1}, // код проблемы от 1 до 4
+    info: {type: DataTypes.STRING}, // инфа, которую пишет бустер
+    screenshot: {type: DataTypes.STRING, allowNull: false} // скрин
 })
 
-const Penaltie = sequelize.define('penaltie', {
-    details: {type: DataTypes.STRING, allowNull: false},
-    time: {type: DataTypes.TIME},
-    penalty: {type: DataTypes.INTEGER, defaultValue: 50}
-})
-
-const Rating = sequelize.define('rating', {//рейтинг за услугу
+const Penaltie = sequelize.define('penaltie', { // штрафы
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    rate: {type: DataTypes.INTEGER, allowNull: false}
+    details: {type: DataTypes.STRING, allowNull: false}, // пишет админ причину штрафа
+    time: {type: DataTypes.TIME}, // время (авто)
+    penalty: {type: DataTypes.INTEGER, defaultValue: 50} // сумма штрафа не менее 50 рублев хотя в принциапе пох
 })
 
-const PromoCode = sequelize.define('promo_code', {
+const Rating = sequelize.define('rating', { //рейтинг за услугу
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    name: {type: DataTypes.STRING, unique: true, allowNull: false},
-    isActive: {type: DataTypes.BOOLEAN, default: true}
+    rate: {type: DataTypes.INTEGER, allowNull: false} // оценить от 0 до 5 звезд в яндекс.такси
+})
+
+const PromoCode = sequelize.define('promo_code', { // промокод
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    name: {type: DataTypes.STRING, unique: true, allowNull: false}, // сам промокод
+    isActive: {type: DataTypes.BOOLEAN, default: true} // активен/неактивен
 })
 
 const Boost = sequelize.define('boost', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    status: {type: DataTypes.STRING, default: 'Не занят'},
-    price: {type: DataTypes.INTEGER, allowNull: false},
-    current_mmr: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false},
-    end_mmr: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false},
-    super: {type: DataTypes.BOOLEAN, defaultValue: false},
-    choice: {type: DataTypes.BOOLEAN, defaultValue: false},//выбор героев
-    special_time: {type: DataTypes.BOOLEAN, defaultValue: false},
-    start: {type: DataTypes.INTEGER},
-    end: {type: DataTypes.INTEGER},
-    no_guard: {type: DataTypes.BOOLEAN, defaultValue: false},
-    duo: {type: DataTypes.BOOLEAN, defaultValue: false}
+    status: {type: DataTypes.STRING, default: 'Не занят'}, // статус (не занят, занят, завершен, отменен)
+    price: {type: DataTypes.INTEGER, allowNull: false}, // цена
+    current_mmr: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false}, // текущий ммр
+    end_mmr: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false}, // конечный ммр
+    super: {type: DataTypes.BOOLEAN, defaultValue: false}, // сделать быстро
+    choice: {type: DataTypes.BOOLEAN, defaultValue: false}, // выбор героев (до 5 на выбор и до 5 на бан)
+    special_time: {type: DataTypes.BOOLEAN, defaultValue: false}, // играть в определенное время
+    //
+    start: {type: DataTypes.INTEGER}, // начало
+    end: {type: DataTypes.INTEGER}, // конец
+    // есть возможность перенести эти два поля в отдельную таблицу, но пока хз
+    no_guard: {type: DataTypes.BOOLEAN, defaultValue: false}, // не отключать стим гуард
+    duo: {type: DataTypes.BOOLEAN, defaultValue: false} // дуо буст
 })
 
 const Account = sequelize.define('account', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    status: {type: DataTypes.STRING, default: 'Не занят'},
-    price: {type: DataTypes.INTEGER, allowNull: false},
-    mmr: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false},
-    decency: {type: DataTypes.INTEGER, defaultValue: 10000, allowNull: false},//порядочность
-    level: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false},
-    steam_link: {type: DataTypes.STRING, allowNull: false},
-    dotabuff: {type: DataTypes.STRING, allowNull: false},
-    account_password: {type: DataTypes.STRING, allowNull: false},
-    steam_login: {type: DataTypes.STRING, allowNull: false},
-    img: {type: DataTypes.STRING, allowNull: false},
-    img_2: {type: DataTypes.STRING, allowNull: false},
-    img_3: {type: DataTypes.STRING, allowNull: false}
+    status: {type: DataTypes.STRING, default: 'Не занят'}, // статус (не занят, занят, завершен, отменен)
+    price: {type: DataTypes.INTEGER, allowNull: false}, // цена
+    mmr: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false}, // ммр
+    decency: {type: DataTypes.INTEGER, defaultValue: 10000, allowNull: false}, // порядочность
+    level: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false}, // уровень
+    steam_link: {type: DataTypes.STRING, allowNull: false}, // стим линк
+    dotabuff: {type: DataTypes.STRING, allowNull: false}, // дотабафф
+    account_password: {type: DataTypes.STRING, allowNull: false}, // пароль от аккаунта
+    steam_login: {type: DataTypes.STRING, allowNull: false}, // логин от стима
+    img: {type: DataTypes.STRING, allowNull: false}, // картинка с разрешением
+    img_2: {type: DataTypes.STRING, allowNull: false}, // картинка для хранения страницы аккаунта
+    img_3: {type: DataTypes.STRING, allowNull: false} // картинка для хранения статистики по героям
 })
 
-const Calibrate = sequelize.define('calibrate', {
+const Calibrate = sequelize.define('calibrate', { // калибровка
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    status: {type: DataTypes.STRING, default: 'Не занят'},
-    price: {type: DataTypes.INTEGER, allowNull: false},
-    previous_mmr: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false},
-    super: {type: DataTypes.BOOLEAN, defaultValue: false},//сделать быстрее
-    games: {type: DataTypes.INTEGER, defaultValue: 0},//сколько игры осталось сыграть  от 1 до 10
-    no_guard: {type: DataTypes.BOOLEAN, defaultValue: false}//не отключать стим гуард
+    status: {type: DataTypes.STRING, default: 'Не занят'}, // статус (не занят, занят, завершен, отменен)
+    price: {type: DataTypes.INTEGER, allowNull: false}, // цена
+    previous_mmr: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false}, // ммр на аккаунте
+    super: {type: DataTypes.BOOLEAN, defaultValue: false}, // сделать быстрее
+    games: {type: DataTypes.INTEGER, defaultValue: 0}, // сколько игры осталось сыграть  от 10 до 1
+    no_guard: {type: DataTypes.BOOLEAN, defaultValue: false} // не отключать стим гуард
 })
 
-const Coach = sequelize.define('coach', {
+const Coach = sequelize.define('coach', { // обучение
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    status: {type: DataTypes.STRING, default: 'Не занят'},
-    price: {type: DataTypes.INTEGER, allowNull: false},
-    count: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false}//кол во игр с тренером
+    status: {type: DataTypes.STRING, default: 'Не занят'}, // статус (не занят, занят, завершен, отменен)
+    price: {type: DataTypes.INTEGER, allowNull: false}, // цена
+    count: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false} // кол во игр с тренером => соответственно
+    // декрементируется после каждой сыгранной игры и по достижению 0 статус заказа меняется на завершенный, но это
+    // в идеале
 })
 
-const ChosenHeroes = sequelize.define('chosen_heroes', {
+const ChosenHeroes = sequelize.define('chosen_heroes', { // выбор до 5 героев для игры
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     hero_1: {type: DataTypes.STRING},
     hero_2: {type: DataTypes.STRING},
@@ -164,7 +170,7 @@ const ChosenHeroes = sequelize.define('chosen_heroes', {
     hero_5: {type: DataTypes.STRING}
 })
 
-const BannedHeroes = sequelize.define('banned_heroes', {
+const BannedHeroes = sequelize.define('banned_heroes', { // выбор до 5 в бан
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     hero_1: {type: DataTypes.STRING},
     hero_2: {type: DataTypes.STRING},
