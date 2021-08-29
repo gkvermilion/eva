@@ -81,14 +81,14 @@ const Result = sequelize.define('result', { // результат, которы�
     mmr: {type: DataTypes.INTEGER, allowNull: false}, // вручную цифрой типа (+24)
     hero: {type: DataTypes.STRING, allowNull: false}, // выбор героя, на котором играл
     match_id: {type: DataTypes.STRING, allowNull: false}, // айди матча
-    screenshot: {type: DataTypes.STRING, allowNull: false} // скрин
+    screenshot: {type: DataTypes.STRING, allowNull: false} // скрин с сайта pastenow
 })
 
 const Problem = sequelize.define('balance', { // таблица для ошибок, обнаруженных бустерами
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     problem_code: {type: DataTypes.INTEGER, defaultValue: 1}, // код проблемы от 1 до 4
     info: {type: DataTypes.STRING}, // инфа, которую пишет бустер
-    screenshot: {type: DataTypes.STRING, allowNull: false} // скрин
+    screenshot: {type: DataTypes.STRING, allowNull: false} // скрин с сайта pastenow
 })
 
 const Penaltie = sequelize.define('penaltie', { // штрафы
