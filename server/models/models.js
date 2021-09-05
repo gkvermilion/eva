@@ -8,7 +8,7 @@ const User = sequelize.define('user', { // юзер, бустер, админ
     isActivated: {type: DataTypes.BOOLEAN, default: false}, // статус аккаунта
     activationLink: {type: DataTypes.STRING}, // ссылка на подтверждение
     balance: {type: DataTypes.INTEGER, defaultValue: 0}, // баланс
-    avatar: {type: DataTypes.STRING, allowNull: false}, // аватарка может меняться только у бустеров и присвается
+    avatar: {type: DataTypes.STRING}, // аватарка может меняться только у бустеров и присвается
     // вместе с вк
     role: {type: DataTypes.STRING, defaultValue: "USER"}, // роль
     VK: {type: DataTypes.STRING, unique: true} // ссылка на вк

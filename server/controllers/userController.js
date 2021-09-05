@@ -1,11 +1,14 @@
 const ApiError = require('../error/ApiError');
-const bcrypt = require('bcrypt')
-const {User} = require('../models/models')
+const userService = require('../services/userService')
 
 class UserController {
     async registration(req, res, next) {
         try{
-
+            const {email, password} = req.body;
+            const userData = await userService.registration(email, password);
+            res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+            // flag secure: true для https
+            return res.json(userData);
         }catch (e) {
             console.log(e);
         }
@@ -27,12 +30,28 @@ class UserController {
         }
     }
 
-    async check(req, res, next) {
-        const {id} = req.query
-        if (!id) {
-            return next(ApiError.badRequest('Не задан ID'))
+    async activate(req, res, next) {
+        try{
+
+        }catch (e) {
+            console.log(e);
         }
-        res.json(id)
+    }
+
+    async refresh(req, res, next) {
+        try{
+
+        }catch (e) {
+            console.log(e);
+        }
+    }
+
+    async getUsers(req, res, next) {
+        try{
+            res.json(['123', '456']);
+        }catch (e) {
+            console.log(e);
+        }
     }
 }
 
