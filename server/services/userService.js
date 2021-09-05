@@ -19,7 +19,7 @@ class userService {
         // DTO = data transfer object
         const userDto = new UserDto(user); // id, email, iActivated
         const tokens = tokenService.generateTokens({...UserDto})
-        await tokenService.saveToken(userDto.id, (await tokens).refreshToken);
+        await tokenService.saveToken(userDto.id, tokens.refreshToken);
 
         return {
             ...tokens,

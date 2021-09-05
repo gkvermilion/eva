@@ -5,7 +5,7 @@ const User = sequelize.define('user', { // юзер, бустер, админ
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     email: {type: DataTypes.STRING, unique: true, required: true},
     password: {type: DataTypes.STRING, required: true},
-    isActivated: {type: DataTypes.BOOLEAN, default: false}, // статус аккаунта
+    isActivated: {type: DataTypes.BOOLEAN, defaultValue: false, allowNull: false}, // статус аккаунта
     activationLink: {type: DataTypes.STRING}, // ссылка на подтверждение
     balance: {type: DataTypes.INTEGER, defaultValue: 0}, // баланс
     avatar: {type: DataTypes.STRING}, // аватарка может меняться только у бустеров и присвается
@@ -72,7 +72,7 @@ const Withdrawal = sequelize.define('withdrawal', { // вывод средств
     time: {type: DataTypes.DATE}, // дата
     sum: {type: DataTypes.INTEGER, allowNull: false}, // сумма вывода
     wallet: {type: DataTypes.STRING, allowNull: false}, // номер кошелька
-    status: {type: DataTypes.STRING, default: 'Обрабатывается'} // статус (обрабатывается, завершен, отклонено)
+    status: {type: DataTypes.STRING, defaultValue: 'Обрабатывается'} // статус (обрабатывается, завершен, отклонено)
 })
 
 const Result = sequelize.define('result', { // результат, который вбивается после каждой игры
@@ -106,12 +106,12 @@ const Rating = sequelize.define('rating', { //рейтинг за услугу
 const PromoCode = sequelize.define('promo_code', { // промокод
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name: {type: DataTypes.STRING, unique: true, allowNull: false}, // сам промокод
-    isActive: {type: DataTypes.BOOLEAN, default: true} // активен/неактивен
+    isActive: {type: DataTypes.BOOLEAN, defaultValue: true} // активен/неактивен
 })
 
 const Boost = sequelize.define('boost', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    status: {type: DataTypes.STRING, default: 'Не занят'}, // статус (не занят, занят, завершен, отменен)
+    status: {type: DataTypes.STRING, defaultValue: 'Не занят'}, // статус (не занят, занят, завершен, отменен)
     price: {type: DataTypes.INTEGER, allowNull: false}, // цена
     current_mmr: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false}, // текущий ммр
     end_mmr: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false}, // конечный ммр
@@ -128,7 +128,7 @@ const Boost = sequelize.define('boost', {
 
 const Account = sequelize.define('account', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    status: {type: DataTypes.STRING, default: 'Не занят'}, // статус (не занят, занят, завершен, отменен)
+    status: {type: DataTypes.STRING, defaultValue: 'Не занят'}, // статус (не занят, занят, завершен, отменен)
     price: {type: DataTypes.INTEGER, allowNull: false}, // цена
     mmr: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false}, // ммр
     decency: {type: DataTypes.INTEGER, defaultValue: 10000, allowNull: false}, // порядочность
@@ -144,7 +144,7 @@ const Account = sequelize.define('account', {
 
 const Calibrate = sequelize.define('calibrate', { // калибровка
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    status: {type: DataTypes.STRING, default: 'Не занят'}, // статус (не занят, занят, завершен, отменен)
+    status: {type: DataTypes.STRING, defaultValue: 'Не занят'}, // статус (не занят, занят, завершен, отменен)
     price: {type: DataTypes.INTEGER, allowNull: false}, // цена
     previous_mmr: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false}, // ммр на аккаунте
     super: {type: DataTypes.BOOLEAN, defaultValue: false}, // сделать быстрее
@@ -154,7 +154,7 @@ const Calibrate = sequelize.define('calibrate', { // калибровка
 
 const Coach = sequelize.define('coach', { // обучение
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    status: {type: DataTypes.STRING, default: 'Не занят'}, // статус (не занят, занят, завершен, отменен)
+    status: {type: DataTypes.STRING, defaultValue: 'Не занят'}, // статус (не занят, занят, завершен, отменен)
     price: {type: DataTypes.INTEGER, allowNull: false}, // цена
     count: {type: DataTypes.INTEGER, defaultValue: 1, allowNull: false} // кол во игр с тренером => соответственно
     // декрементируется после каждой сыгранной игры и по достижению 0 статус заказа меняется на завершенный, но это
