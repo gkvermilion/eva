@@ -14,7 +14,7 @@ class userService {
         const hashPassword = await bcrypt.hash(password, 3);
         const activationLink = uuid.v4();
 
-        const user = await User.create({email, password: hashPassword, activationLink})
+        const user = await User.create({email: email, password: hashPassword, activationLink: activationLink})
         await mailService.sendActivationMail(email, activationLink);
         // DTO = data transfer object
         const userDto = new UserDto(user); // id, email, iActivated
