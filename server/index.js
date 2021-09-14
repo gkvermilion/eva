@@ -10,12 +10,12 @@ const errorHandler = require('./middleware/ErrorHandlingMiddleware')
 
 const PORT = process.env.PORT || 5000
 
-const app = express()
-app.use(cookieParser())
-app.use(cors())
-app.use(express.json())
-app.use(fileUpload({}))
-app.use(`/`, router)
+const app = express();
+app.use(cookieParser());
+app.use(cors());
+app.use(express.json());
+app.use(fileUpload({}));
+app.use('/api', router);
 
 // Обработка ошибок, последний Middleware
 app.use(errorHandler)
@@ -29,6 +29,4 @@ const start = async () => {
         console.log(e)
     }
 }
-
-
 start()
