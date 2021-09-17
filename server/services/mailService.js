@@ -12,9 +12,7 @@ class mailService {
                 pass: process.env.SMTP_PASSWORD
             }
         })
-
     }
-
 
     async sendActivationMail(to, link) {
         await this.transporter.sendMail({
