@@ -18,7 +18,7 @@ class ApiError extends Error{
     }
 
     static unauthorized(message) {
-        return new ApiError(401, message)
+        return new ApiError(401, 'Пользователь не авторизован');
     }
 }
 
